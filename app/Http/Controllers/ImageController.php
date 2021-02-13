@@ -56,12 +56,8 @@ class ImageController extends Controller{
         $url = Storage::url($img);
 
         $image = new Image();
-        //return $image->all();
         $image->url = $url;
         $image->save();
-            /*Image::create([
-            'url' => $url
-        ]);*/
         return redirect()->route('files.index');
 
     }
@@ -75,8 +71,6 @@ class ImageController extends Controller{
     public function show($id)
     {
         $imagen = Image::find($id);
-        //return $imagen;
-
         return view('imagen.show', compact('imagen'));
     }
 
@@ -86,7 +80,7 @@ class ImageController extends Controller{
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Image $id)
     {
         return view('files.show', compact(id));
     }
@@ -98,22 +92,18 @@ class ImageController extends Controller{
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-
-    {
+    public function update(Request $request, Image $imagen)   {
+        
         $request->validate([
             'file' => 'required|image'
     ]);
 
         $img = $request->file('file')->store('public/imagenes');
         $url = Storage::url($img);
+        $imagen->url = $url;
+        $imagen->save();
 
-        $image = new Image();
-
-        $image->url = $url;
-        $image->save();
-           
-        return redirect()->route('files.show');
+        return redirect()->route('files.show', $imagen);
 
     }
 
@@ -123,8 +113,10 @@ class ImageController extends Controller{
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Image $imagen)
     {
-        //
+        $imagen->delete();
+        return redirect()->route('files.index');
+
     }
 }

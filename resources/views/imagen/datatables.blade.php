@@ -19,7 +19,7 @@
     <div class="content">
         <div class="my-50 text-center">
             <h2 class="font-w700 text-black mb-10">DataTables Imágenes</h2>
-            
+            <a href="{{route('home')}}"><small>up load</small></a>
         </div>
 
      
@@ -27,17 +27,21 @@
         <!-- Dynamic Table Full -->
         <div class="block">
             <div class="block-header block-header-default">
-                <h3 class="block-title">Lista de  <small>Imagenes</small></h3>
+                
             </div>
             <div class="block-content sm">
                 <!-- DataTables init on table by adding .js-dataTable-full class, functionality is initialized in js/pages/tables_datatables.js -->
    <div class="card-columns">
                         @foreach ($imagenes as $imagen)
-                        <a href="{{route('files.show', $imagen->id)}}">
+                        <form action="{{route('files.destroy', $imagen)}}" method="post">
+                        @csrf
+                        @method('delete')
+                        <button class="btn btn-danger">Quitar</button>
+                        </form>
                                 <div class="card">
-                                <img  src="{{asset($imagen->url)}}" alt="">
+                                <a href="{{route('files.show', $imagen->id)}}">
+                                <img  src="{{asset($imagen->url)}}" alt=""> </a>
                                 </div>
-                                </a>
                         @endforeach
                  </div>
             </div>

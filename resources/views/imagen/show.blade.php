@@ -15,7 +15,7 @@
                 <form action="{{route('files.update', $imagen)}}" method="POST" enctype="multipart/form-data">
 
                 @csrf
-                @method('put');
+                @method('put')
                 
                 <div class="form group m-2">
                 <div class="ml-5 mt-2">
