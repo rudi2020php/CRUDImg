@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use App\Models\Image; 
+use App\Models\Image;
 
 use App\Models\User;
 
-class ImageController extends Controller{
-     /**
+class ImageController extends Controller
+{
+    /**
      * Create a new controller instance.
      *
      * @return void
@@ -50,16 +51,19 @@ class ImageController extends Controller{
     {
         $request->validate([
             'file' => 'required|image'
-    ]);
+        ]);
 
         $img = $request->file('file')->store('public/imagenes');
         $url = Storage::url($img);
 
         $image = new Image();
+        //return $image->all();
         $image->url = $url;
         $image->save();
+        /*Image::create([
+            'url' => $url
+        ]);*/
         return redirect()->route('files.index');
-
     }
 
     /**
@@ -71,6 +75,8 @@ class ImageController extends Controller{
     public function show($id)
     {
         $imagen = Image::find($id);
+        //return $imagen;
+
         return view('imagen.show', compact('imagen'));
     }
 
@@ -92,11 +98,12 @@ class ImageController extends Controller{
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Image $imagen)   {
-        
+    public function update(Request $request, Image $imagen)
+    {
+
         $request->validate([
             'file' => 'required|image'
-    ]);
+        ]);
 
         $img = $request->file('file')->store('public/imagenes');
         $url = Storage::url($img);
@@ -104,7 +111,6 @@ class ImageController extends Controller{
         $imagen->save();
 
         return redirect()->route('files.show', $imagen);
-
     }
 
     /**
@@ -117,6 +123,5 @@ class ImageController extends Controller{
     {
         $imagen->delete();
         return redirect()->route('files.index');
-
     }
 }
